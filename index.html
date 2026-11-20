@@ -208,13 +208,13 @@
   .toggle-btn.active-buy {
     background: var(--accent-buy-dim);
     color: var(--accent-buy);
-    box-shadow: 0 0 12px #4ade8033;
+    box-shadow: 0 0 12px #f8717133;
   }
 
   .toggle-btn.active-sell {
     background: var(--accent-sell-dim);
     color: var(--accent-sell);
-    box-shadow: 0 0 12px #f8717133;
+    box-shadow: 0 0 12px #4ade8033;
   }
 
   /* Controls */
@@ -894,6 +894,7 @@ For permissions beyond this license:
   </div>
 </div>
 <div id="app">
+    <div class="header">
      <div class="header-title">
       <h1>// C4TB0T TERMINAL</h1>
 
@@ -913,27 +914,37 @@ For permissions beyond this license:
   </div>
 
   <div class="mode-toggle">
-    <button class="toggle-btn active-buy" id="buyToggle" onclick="setMode('buy')">▼ BUY</button>
-    <button class="toggle-btn" id="sellToggle" onclick="setMode('sell')">▲ SELL</button>
+<button class="toggle-btn" id="buyToggle" onclick="setMode('buy')">▼ BUY</button>
+<button class="toggle-btn active-sell" id="sellToggle" onclick="setMode('sell')">▲ SELL</button>
   </div>
   <div class="controls" style="flex-direction:column;gap:8px;">
     <input type="text" id="search" placeholder="Search items...">
     <div>
     <select id="categoryFilter">
-      <option value="" selected>All Categories</option>
-      <option value="weapon">Weapons</option>
-      <option value="mag">Magazines</option>
-      <option value="attachment">Attachments</option>
-      <option value="ammo">Ammo</option>
-      <option value="explosive">Explosives and Traps</option>
-      <option value="gear">Gear</option>
-      <option value="clothing">Clothing</option>
-      <option value="special">Special</option>
-      <option value="misc">Misc</option>
-       <option value="pelt">Pelt/Headdress</option>
-       <option value="keycard">Keys</option>
-       <option value="catfood">Catfood</option>
-       <option value="all">— Show All —</option>
+    <option value="" selected>All Categories</option>
+<option value="pistol">Pistols</option>
+<option value="rifle">Rifles</option>
+<option value="crossbow">Crossbow</option>
+<option value="melee">Melee</option>
+<option value="explosives">Explosives and Traps</option>
+<option value="mag">Magazines</option>
+<option value="ammo">Ammo</option>
+<option value="attachment">Optics</option>
+<option value="suppressor">Suppressors</option>
+<option value="armor">Armor</option>
+<option value="clothing">Clothing</option>
+<option value="nbc">NBC</option>
+<option value="backpack">Backpacks</option>
+<option value="vehicle">Vehicles</option>
+<option value="vehiclepart">Vehicle Parts</option>
+<option value="repair">Repair Items</option>
+<option value="medical">Medical</option>
+<option value="building">Building</option>
+<option value="storage">Storage</option>
+<option value="misc">Misc</option>
+<option value="catfood">Catfood</option>
+<option value="collectible">Collectibles</option>
+<option value="all">— Show All —</option>
     </select>
     </div>
   </div>
@@ -957,7 +968,7 @@ For permissions beyond this license:
   <div class="modal">
     <button class="modal-close" onclick="closeInvoice()">✕</button>
     <div class="invoice-header">
-      <div class="invoice-title">// C4TBØT INVOICE</div>
+      <div class="invoice-title">// C4TB0T INVOICE</div>
       <div class="invoice-meta" id="invoiceMeta"></div>
     </div>
     <div class="invoice-section-label">Transactions</div>
@@ -977,144 +988,243 @@ For permissions beyond this license:
 
 <script>
 let playerBalance = 0;
-let mode = 'buy';
+let mode = 'sell';
 let log = [];
 
 const items = {
-  // Weapons
- "LAR": {category:"weapon", buy:30000, sell:15000},
-  "SCR-17": {category:"weapon", buy:30000, sell:15000},
-  "CR-550": {category:"weapon", buy:15000, sell:7500},
-  "AUR": {category:"weapon", buy:20000, sell:10000},
-  "BLAZE": {category:"weapon", buy:10000, sell:5000},
-  "M4": {category:"weapon", buy:25000, sell:12500},
-  "TUNDRA": {category:"weapon", buy:10000, sell:5000},
-  "VS89": {category:"weapon", buy:13000, sell:6500},
-  "DMR": {category:"weapon", buy:20000, sell:10000},
-  "KAM": {category:"weapon", buy:40000, sell:20000},
-  "VSD": {category:"weapon", buy:10000, sell:5000},
-  "SKS": {category:"weapon", buy:10000, sell:5000},
-  "KA74": {category:"weapon", buy:5000, sell:2500},
-  "VSS": {category:"weapon", buy:5000, sell:2500},
-  "M16": {category:"weapon", buy:8000, sell:4000},
-  "Pioneer": {category:"weapon", buy:10000, sell:5000},
-  "Lemas": {category:"weapon", buy:5000, sell:2500},
-  "Mosin": {category:"weapon", buy:10000, sell:5000},
-  "SVAL": {category:"weapon", buy:12000, sell:6000},
-  "Vaiga": {category:"weapon", buy:8000, sell:4000},
-  "R12": {category:"weapon", buy:8000, sell:4000},
-  "BK": {category:"weapon", buy:4000, sell:2000},
-  "KA101": {category:"weapon", buy:12000, sell:6000},
-  "KA74U": {category:"weapon", buy:4000, sell:2000},
-  "Bizon": {category:"weapon", buy:8000, sell:4000},
-  "Vikhr": {category:"weapon", buy:2500, sell:1250},
-  "USG45": {category:"weapon", buy:2000, sell:1000},
-  "SG5K": {category:"weapon", buy:1000, sell:500},
-  "Scorpion": {category:"weapon", buy:1000, sell:500},
-  "Deagle": {category:"weapon", buy:10000, sell:5000},
-  "FX45": {category:"weapon", buy:8000, sell:4000},
-  "Engraved Kolt": {category:"weapon", buy:7000, sell:3500},
-  "P1": {category:"weapon", buy:1000, sell:500},
-    
+  // Pistols
+  "Mlock-91 Tan": {category:"pistol", buy:null, sell:2000},
+  "Kolt 1911 Engraved": {category:"pistol", buy:null, sell:1500},
+  "Sawed-off Revolver Gold": {category:"pistol", buy:null, sell:2000},
+  "Revolver Gold": {category:"pistol", buy:null, sell:2500},
+  "Deagle Silver": {category:"pistol", buy:null, sell:2000},
+  "Deagle Gold": {category:"pistol", buy:null, sell:2500},
+  "Derringer Black": {category:"pistol", buy:null, sell:2000},
+  "Derringer Pink": {category:"pistol", buy:null, sell:2500},
+
+  // Rifles
+  "KA-101 Green": {category:"rifle", buy:null, sell:4000},
+  "KA-M": {category:"rifle", buy:null, sell:5000},
+  "KA-M Gold": {category:"rifle", buy:null, sell:7500},
+  "AUR AX": {category:"rifle", buy:null, sell:5000},
+  "M4-A1": {category:"rifle", buy:null, sell:7500},
+  "M4-A1 Green": {category:"rifle", buy:null, sell:8000},
+  "SCAR16": {category:"rifle", buy:null, sell:7000},
+  "SCAR17": {category:"rifle", buy:null, sell:7500},
+  "LAR": {category:"rifle", buy:null, sell:5000},
+  "DMR": {category:"rifle", buy:null, sell:7500},
+  "CR-550 Savanna": {category:"rifle", buy:null, sell:3500},
+  "M70 Tundra": {category:"rifle", buy:null, sell:4000},
+  "Blaze": {category:"rifle", buy:null, sell:3500},
+  "VSD": {category:"rifle", buy:null, sell:4500},
+  "VSD Wood": {category:"rifle", buy:null, sell:5500},
+  "VSS": {category:"rifle", buy:null, sell:5000},
+  "SVAL": {category:"rifle", buy:null, sell:5000},
+  "VS-89": {category:"rifle", buy:null, sell:5000},
+  "Vaiga": {category:"rifle", buy:null, sell:4000},
+
+
+  // Crossbow
+  "Crossbow": {category:"crossbow", buy:null, sell:4000},
+  "Cupid Bolt x1": {category:"crossbow", buy:null, sell:1000},
+
+  // Explosives/Traps
+  "M79 Grenade Launcher": {category:"explosives", buy:null, sell:3000},
+  "40mm Grenade HE": {category:"explosives", buy:null, sell:750},
+  "40mm Grenade Pox": {category:"explosives", buy:null, sell:750},
+  "Pox Grenade Thrown": {category:"explosives", buy:null, sell:750},
+  "Frag Grenade": {category:"explosives", buy:null, sell:750},
+  "Plastic Explosive": {category:"explosives", buy:null, sell:2000},
+  "Remote Detonator": {category:"explosives", buy:null, sell:1000},
+  "Claymore": {category:"explosives", buy:null, sell:2000},
+  "Landmine": {category:"explosives", buy:null, sell:1500},
+  "Complete IED w Plastic x2": {category:"explosives", buy:null, sell:6000},
+  "Bear Trap": {category:"explosives", buy:null, sell:1500},
+
   // Magazines
-  "60/75rnd Mags": {category:"mag", buy:7000, sell:null},
-  "Vaiga Drum Mag": {category:"mag", buy:7000, sell:null},
-  "VSD Mag": {category:"mag", buy:5000, sell:null},
-  "30rnd Mags": {category:"mag", buy:3000, sell:null},
-  "VS89 Mag": {category:"mag", buy:2000, sell:null},
-  "SVAL Mag": {category:"mag", buy:600, sell:null},
-  "SMG/Pistol Mags": {category:"mag", buy:500, sell:null},
-
-   // Attachments
-  "NVG Scope": {category:"attachment", buy:15000, sell:null},
-  "Gun Sights": {category:"attachment", buy:7000, sell:null},
-  "Standardised Suppressor": {category:"attachment", buy:4500, sell:null},
-  "Normalised Suppressor": {category:"attachment", buy:4500, sell:null},
-  "Pistol Suppressor": {category:"attachment", buy:2500, sell:null},
-
-   // Ammo
-  "Rifle Ammo": {category:"ammo", buy:700, sell:null},
-  "Shotgun Ammo": {category:"ammo", buy:500, sell:null},
-  "Pistol Ammo": {category:"ammo", buy:250, sell:null},
-
-   // Explosives and Traps
-  "Grenades": {category:"explosive", buy:40000, sell:null},
-  "Bear Trap": {category:"explosive", buy:32000, sell:15000},
-  "Land Mine": {category:"explosive", buy:35000, sell:17500},
-  "Trip Wire": {category:"explosive", buy:100, sell:50},
-  "Claymore": {category:"explosive", buy:22000, sell:11000},
-  "IED": {category:"explosive", buy:60000, sell:30000},
-  "Detonator": {category:"explosive", buy:35000, sell:17500},
-  "Plastics": {category:"explosive", buy:50000, sell:25000},
-
-    // Gear
-   "Plate Carrier (w/ pouch)": {category:"gear", buy:40000, sell:10000},
-  "Assault Vest (w/ butt pouch)": {category:"gear", buy:3000, sell:1500},
-  "Helmets": {category:"gear", buy:16000, sell:8000},
-  "Pouches": {category:"gear", buy:1000, sell:500},
-  "Butt Pouch": {category:"gear", buy:1000, sell:500},
-  "Ghillie Suit": {category:"gear", buy:4000, sell:2000},
-  "Ghillie Hood": {category:"gear", buy:1500, sell:700},
-  "Rifle Wraps": {category:"gear", buy:1000, sell:500},
-  "NVG (Headstrap)": {category:"gear", buy:3000, sell:1500},
-  "NVG": {category:"gear", buy:20000, sell:10000},
-  "Rangefinder": {category:"gear", buy:1500, sell:700},
-  "Universal Flashlight": {category:"gear", buy:800, sell:400},
-  "Gun Cleaning Kit": {category:"gear", buy:1000, sell:500},
-  "Knife (Fange)": {category:"gear", buy:500, sell:250},
-  "Combat Knife": {category:"gear", buy:300, sell:150},
-  "Holster": {category:"gear", buy:600, sell:300},
-  "Sheath": {category:"gear", buy:200, sell:100},
-
-    // Clothing
-    "Ski Mask": {category:"clothing", buy:500, sell:250},
-  "Combat Gloves": {category:"clothing", buy:300, sell:150},
-  "Tactical Belt": {category:"clothing", buy:600, sell:300},
-  "Military/Hunting Tops": {category:"clothing", buy:1000, sell:500},
-  "Military/Hunting Bottoms": {category:"clothing", buy:1000, sell:500},
-  "Assault Boots": {category:"clothing", buy:800, sell:400},
-  "Hunter Boots": {category:"clothing", buy:500, sell:250},
-  "Backpacks": {category:"clothing", buy:1500, sell:750},
+  "Deagle Mag": {category:"mag", buy:null, sell:1500},
+  "KA-M Mag 75 rd": {category:"mag", buy:null, sell:2000},
+  "KA-M Mag 75 rd Gold": {category:"mag", buy:null, sell:2500},
+  "KA-M Mag 300 rd": {category:"mag", buy:null, sell:10000},
+  "M4-A1 Mag 40 rd": {category:"mag", buy:null, sell:1000},
+  "M4-A1 Mag 60 rd": {category:"mag", buy:null, sell:2000},
+  "LAR Mag": {category:"mag", buy:null, sell:750},
+  "SCAR17 Mag": {category:"mag", buy:null, sell:1000},
+  "DMR Mag 20 rd": {category:"mag", buy:null, sell:2000},
+  "VIKHR Mag 30 rd": {category:"mag", buy:null, sell:1500},
+  "Vaiga Drum Mag 20 rd": {category:"mag", buy:null, sell:1000},
+  "VSD Mag": {category:"mag", buy:null, sell:1500},
+  "VS-89 Mag": {category:"mag", buy:null, sell:1500},
   
-  // Special
-  "Pox Vial": {category:"special", buy:10000, sell:5000},
-  "Thumpers": {category:"special", buy:100000, sell:50000},
-  "40mm Pox Round": {category:"special", buy:15000, sell:7500},
-  "40mm Explosive Round": {category:"special", buy:25000, sell:12500},
-  "Punch Card": {category:"special", buy:1000000, sell:500000},
+  // Ammo
+  ".357 Magnum": {category:"ammo", buy:null, sell:1000},
+  "5.56x45mm": {category:"ammo", buy:null, sell:1000},
+  "7.62x39mm": {category:"ammo", buy:null, sell:1000},
+  ".308 Win": {category:"ammo", buy:null, sell:1500},
+  "7.62x54mmR": {category:"ammo", buy:null, sell:1000},
+  "9x39mm AP": {category:"ammo", buy:null, sell:2000},
 
-    // Miscellanious
-  "Camo Nets": {category:"misc", buy:4000, sell:2000},
-  "Cigarettes": {category:"misc", buy:null, sell:5000},
-  "Generator": {category:"misc", buy:10000, sell:null},
-  "Construction Lights": {category:"misc", buy:8000, sell:null},
-  "Cable Reel": {category:"misc", buy:1000, sell:null},
-  "Combo Locks (4dial)": {category:"misc", buy:300, sell:100},
+  // Optics
+  "PSO-6 Scope": {category:"attachment", buy:null, sell:1500},
+  "ACOG Scope 6x": {category:"attachment", buy:null, sell:1500},
+  "Hunting Scope": {category:"attachment", buy:null, sell:1500},
+  "Marksman Scope": {category:"attachment", buy:null, sell:2000},
+  "NV-PVS4 Scope": {category:"attachment", buy:null, sell:4000},
+  "1PN51 NV Scope": {category:"attachment", buy:null, sell:4000},
 
-   // Pelts
-   "Bear Headdress": {category:"pelt", buy:null, sell:30000},
-  "Bear Pelt": {category:"pelt", buy:null, sell:25000},
-  "Reindeer Pelt": {category:"pelt", buy:null, sell:18000, note:"Christmas event"},
-  "Wolf Pelt": {category:"pelt", buy:null, sell:13000},
-  "Wolf Headdress": {category:"headdress", buy:null, sell:10000},
-  "Deer Pelt": {category:"pelt", buy:null, sell:9000},
-  "Boar Pelt": {category:"pelt", buy:null, sell:7500},
-  "Cow Pelt": {category:"pelt", buy:null, sell:6000},
-  "Goat Pelt": {category:"pelt", buy:null, sell:5500},
-  "Sheep Pelt": {category:"pelt", buy:null, sell:5000},
-  "Fox Pelt": {category:"pelt", buy:null, sell:4500},
-  "Hare Pelt": {category:"pelt", buy:null, sell:4000},
-  "Pig Pelt": {category:"pelt", buy:null, sell:3500},
+  // Suppressors
+  "Pistol Suppressor": {category:"suppressor", buy:null, sell:500},
+  "Marakov Suppressor": {category:"suppressor", buy:null, sell:500},
+  "Standardized Suppressor (American)": {category:"suppressor", buy:null, sell:2500},
+  "Normalized Suppressor (Russian)": {category:"suppressor", buy:null, sell:1500},
 
-   // Keys
-  "Yellow Key": {category:"keycard", buy:1000000, sell:null},
-  "Red Key": {category:"keycard", buy:1000000, sell:null},
-  "Orange Key": {category:"keycard", buy:1000000, sell:null},
-  "Blue Key": {category:"keycard", buy:1000000, sell:null},
-  "Punchcard": {category:"keycard", buy:1000000, sell:null},
+  // Melee
+  "Sword": {category:"melee", buy:null, sell:2500},
+  "Scimitar": {category:"melee", buy:null, sell:2500},
+  "Mace": {category:"melee", buy:null, sell:2500},
+  "Baseball Bat Nailed": {category:"melee", buy:null, sell:1500},
+  "Baseball Bat Barbed": {category:"melee", buy:null, sell:1500},
+  "Baseball Bat Xmas": {category:"melee", buy:null, sell:2500},
+  "Akinaka": {category:"melee", buy:null, sell:2000},
+  "Jambiya": {category:"melee", buy:null, sell:1500},
+  "Ice Axe": {category:"melee", buy:null, sell:2000},
+  
+  // Armor - Helmets/NVG
+  "Tactical Helmet": {category:"armor", buy:null, sell:1500},
+  "NVG Headstrap": {category:"armor", buy:null, sell:1500},
+  "NVG Goggles": {category:"armor", buy:null, sell:2500},
+  "Coif": {category:"armor", buy:null, sell:1500},
+  "Greathelm": {category:"armor", buy:null, sell:2000},
+  "Armored Hood": {category:"armor", buy:null, sell:2500},
+  "Norse Helm": {category:"armor", buy:null, sell:20000},
+  "Yellow King Helmet": {category:"armor", buy:null, sell:20000},
+  "Yellow King Helmet Red/Black": {category:"armor", buy:null, sell:50000},
+
+  // Armor - Vests
+  "Plate Carrier Vest": {category:"armor", buy:null, sell:5000},
+  "Plate Carrier Pouches": {category:"armor", buy:null, sell:500},
+  "Plate Carrier Holster": {category:"armor", buy:null, sell:500},
+  "Assault Vest": {category:"armor", buy:null, sell:1500},
+  "Butt pack": {category:"armor", buy:null, sell:1500},
+  "Chainmail Shirt": {category:"armor", buy:null, sell:2500},
+  "Chainmail Pants": {category:"armor", buy:null, sell:2000},
+  "Chestplate": {category:"armor", buy:null, sell:5000},
+
+  // Ghillie
+  "Ghillie Suit": {category:"clothing", buy:null, sell:3000},
+  "Ghillie Hood": {category:"clothing", buy:null, sell:1500},
+  "Ghillie Rifle Wrap": {category:"clothing", buy:null, sell:1000},
+
+  // Clothing
+  "Winter Military Coat": {category:"clothing", buy:null, sell:5000},
+  "Hunter Jacket Desert": {category:"clothing", buy:null, sell:2500},
+  "Hunter Pants Desert": {category:"clothing", buy:null, sell:2500},
+  "Rider Jacket": {category:"clothing", buy:null, sell:2500},
+  "Assault Boots RedPunk": {category:"clothing", buy:null, sell:1500},
+  "Assault Boots BlueRock": {category:"clothing", buy:null, sell:1500},
+  "Cold Operation Boots": {category:"clothing", buy:null, sell:1500},
+  "Witch Hood": {category:"clothing", buy:null, sell:1000},
+  "Ballerina Shoes": {category:"clothing", buy:null, sell:5000},
+  "Wolf Headdress": {category:"clothing", buy:null, sell:1500},
+  "Bear Headdress": {category:"clothing", buy:null, sell:2500},
+  "Fox Headdress": {category:"clothing", buy:null, sell:1500},
+  "Payday Mask": {category:"clothing", buy:null, sell:2500},
+  "Jack-o-Lantern": {category:"clothing", buy:null, sell:2500},
+  "Carnival Mask": {category:"clothing", buy:null, sell:1000},
+  "Leaf Crown": {category:"clothing", buy:null, sell:2000},
+  "Mime Mask": {category:"clothing", buy:null, sell:2000},
+  "Christmas Headband": {category:"clothing", buy:null, sell:2000},
+  "Santa Hat": {category:"clothing", buy:null, sell:2000},
+  "Ski Mask Piggy": {category:"clothing", buy:null, sell:2500},
+  "Ski Mask Chains": {category:"clothing", buy:null, sell:2000},
+  "Ski Mask BDU": {category:"clothing", buy:null, sell:2000},
+
+  // NBC
+  "Gas Mask": {category:"nbc", buy:null, sell:1000},
+  "NBC Respirator": {category:"nbc", buy:null, sell:1200},
+  "Combat Gas Mask": {category:"nbc", buy:null, sell:1500},
+  "Gas Mask Filter": {category:"nbc", buy:null, sell:1000},
+  "NBC Hood": {category:"nbc", buy:null, sell:1000},
+  "NBC Jacket": {category:"nbc", buy:null, sell:1000},
+  "NBC Pants": {category:"nbc", buy:null, sell:1000},
+  "NBC Boots": {category:"nbc", buy:null, sell:1000},
+  "NBC Gloves": {category:"nbc", buy:null, sell:1000},
+  "NBC Pack": {category:"nbc", buy:null, sell:1000},
+
+  // Backpacks
+  "Field Backpack": {category:"backpack", buy:null, sell:2500},
+  "Long Haul Backpack": {category:"backpack", buy:null, sell:3000},
+  "Combat Backpack": {category:"backpack", buy:null, sell:2000},
+  "Tactical Backpack": {category:"backpack", buy:null, sell:1500},
+  "Hunter Backpack Skull/Hannah": {category:"backpack", buy:null, sell:10000},
+
+  // Vehicles
+  "Ada": {category:"vehicle", buy:null, sell:10000},
+  "Sarka": {category:"vehicle", buy:null, sell:7500},
+  "Olga": {category:"vehicle", buy:null, sell:10000},
+  "Gunter": {category:"vehicle", buy:null, sell:10000},
+  "Humvee": {category:"vehicle", buy:null, sell:10000},
+  "M3S Truck": {category:"vehicle", buy:null, sell:15000},
+  "Bitrak/Dirtbike": {category:"vehicle", buy:null, sell:10000},
+  "Jana/Moped": {category:"vehicle", buy:null, sell:7500},
+
+  // Vehicle Parts
+  "Spark Plug": {category:"vehiclepart", buy:null, sell:1000},
+  "Battery": {category:"vehiclepart", buy:null, sell:1000},
+  "Radiator": {category:"vehiclepart", buy:null, sell:1000},
+  "Glowplug": {category:"vehiclepart", buy:null, sell:1500},
+
+  // Repair Items
+  "Epoxy Putty": {category:"repair", buy:null, sell:1000},
+  "Blowtorch": {category:"repair", buy:null, sell:1000},
+  "Gas Canister Small": {category:"repair", buy:null, sell:500},
+  "Gas Canister Medium": {category:"repair", buy:null, sell:750},
+  "Gas Canister Large": {category:"repair", buy:null, sell:1000},
+  "Sewing Kit": {category:"repair", buy:null, sell:1000},
+  "Duct Tape": {category:"repair", buy:null, sell:1000},
+  "Leather Repair Kit": {category:"repair", buy:null, sell:1500},
+  "Electrical Repair Kit": {category:"repair", buy:null, sell:1500},
+  "Gun Cleaning Kit": {category:"repair", buy:null, sell:1500},
+  "9V Battery": {category:"repair", buy:null, sell:500},
+
+  // Medical
+  "Blood Bag 0-": {category:"medical", buy:null, sell:2500},
+  "Defibrillator": {category:"medical", buy:null, sell:10000},
+  "Pox Antidote": {category:"medical", buy:null, sell:1000},
+
+  // Tools (Building)
+  "Digital Code Lock": {category:"building", buy:null, sell:15000},
+  "Nails x70": {category:"building", buy:null, sell:10000},
+  "Tanned Leather x8": {category:"building", buy:null, sell:5000},
+  "Garden Lime": {category:"building", buy:null, sell:2500},
+
+  // Storage
+  "Canopy Tent": {category:"storage", buy:null, sell:5000},
+  "Medium Tent": {category:"storage", buy:null, sell:5000},
+  "Large Mili Tent": {category:"storage", buy:null, sell:10000},
+  "Car Tent": {category:"storage", buy:null, sell:15000},
+  "Barrel": {category:"storage", buy:null, sell:2500},
+
+  // Misc
+  "Generator": {category:"misc", buy:null, sell:10000},
+  "Construction Light": {category:"misc", buy:null, sell:5000},
+  "Battery Charger": {category:"misc", buy:null, sell:2500},
+  "Cable Reel": {category:"misc", buy:null, sell:2500},
 
   // Catfood
-   "Catfood": {category:"catfood", buy:null, sell:5000}
+  "Catfood": {category:"catfood", buy:null, sell:2000},
+
+  // Collectibles
+  "Marijuana Crate (buds x50)": {category:"collectible", buy:null, sell:15000},
+  "Easter Egg": {category:"collectible", buy:null, sell:5000},
+  "Book": {category:"collectible", buy:null, sell:1000},
+  "Cassette Tape": {category:"collectible", buy:null, sell:1000},
+  "Cigarettes": {category:"collectible", buy:null, sell:1000},
+  "Powdered Milk": {category:"collectible", buy:null, sell:1000},
+  "Liberty Cap": {category:"collectible", buy:null, sell:2500},
+  "Fly Animita": {category:"collectible", buy:null, sell:2500},
+  "Bear Pelt": {category:"collectible", buy:null, sell:2000},
+  "All Other Pelts": {category:"collectible", buy:null, sell:1000},
 };
 
 function formatBalance(val) {
